@@ -21,7 +21,8 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
-finalenv/
+denv/
+*.env
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -51,6 +52,7 @@ coverage.xml
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+secret.txt
 
 # Flask stuff:
 instance/

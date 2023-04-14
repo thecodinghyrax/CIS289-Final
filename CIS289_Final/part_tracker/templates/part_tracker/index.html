@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container-main {
+            width: 80%;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .container-part {
+            border: 1px black solid;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Part Tracker</h1>
+    <button>Update</button>
+
+    <div class="container-main">
+        {% for item in context %}
+        <div class="container-part">
+            <h3>Part: {{ item }}</h3>
+            <p>Current Lowest Price: Not set</p>
+            <p>Retailer: Not set</p>
+            <p>Isert Image Here</p>
+
+        </div>
+        {% endfor %}
+
+    </div>
+    
+</body>
+</html>

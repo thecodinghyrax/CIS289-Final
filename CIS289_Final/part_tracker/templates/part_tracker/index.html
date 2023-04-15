@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,33 +8,62 @@
     <title>Document</title>
     <style>
         .container-main {
-            width: 80%;
             margin: auto;
             display: flex;
             flex-wrap: wrap;
+            flex-direction: column;
+            width: 80%;
         }
+
         .container-part {
+            height:20em;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+        }
+
+        .container-component {
             border: 1px black solid;
             border-radius: 15px;
+            margin: 0 1em;
+            width: 20em;
+            height: 100%;
+        }
+
+        .graph {
+            width: 40em;
+            border: 1px black solid;
+            border-radius: 15px;
+            /* height: 100%; */
+
         }
     </style>
 </head>
-<body>
-    <h1>Part Tracker</h1>
-    <button>Update</button>
 
+<body>
+    
     <div class="container-main">
-        {% for item in context %}
+        <h1>Part Tracker</h1>
+        <button>Update</button>
+        {% for item in catagories %}
         <div class="container-part">
-            <h3>Part: {{ item }}</h3>
-            <p>Current Lowest Price: Not set</p>
-            <p>Retailer: Not set</p>
-            <p>Isert Image Here</p>
+
+            <div class="container-component">
+                <h3>Part: {{ item }}</h3>
+                <p>Current Lowest Price: Not set</p>
+                <p>Retailer: Not set</p>
+                <p>Insert Image Here</p>
+            </div>
+
+            <div class="graph">
+                Fancy Graph Here
+            </div>
 
         </div>
         {% endfor %}
 
     </div>
-    
+
 </body>
+
 </html>

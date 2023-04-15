@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,45 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        .container-main {
-            margin: auto;
-            display: flex;
-            flex-wrap: wrap;
-            flex-direction: column;
-            width: 80%;
-        }
-
-        .container-part {
-            height:20em;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-        }
-
-        .container-component {
-            border: 1px black solid;
-            border-radius: 15px;
-            margin: 0 1em;
-            width: 20em;
-            height: 100%;
-        }
-
-        .graph {
-            width: 40em;
-            border: 1px black solid;
-            border-radius: 15px;
-            /* height: 100%; */
-
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'part_tracker/style.css' %}">
 </head>
 
 <body>
     
     <div class="container-main">
         <h1>Part Tracker</h1>
-        <button>Update</button>
+        <button id="update-btn">Update</button>
         {% for item in catagories %}
         <div class="container-part">
 

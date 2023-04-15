@@ -1,7 +1,5 @@
 
-# Python II - CIS 289 Final Project
-
-# CIS 289 – Final Project Proposal 
+# Python II CIS 289 – Final Project Proposal 
 ##### DREW CRAWFORD – SPRING 2023
 
 ## Program Scope

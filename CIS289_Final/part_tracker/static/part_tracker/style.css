@@ -11,11 +11,11 @@ body {
     font-size: large;
 }
 .container-main {
-    margin: auto;
+    /* margin: auto;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    width: 80%;
+    width: 80%; */
     background: black url("images/pc.webp") no-repeat;
 }
 

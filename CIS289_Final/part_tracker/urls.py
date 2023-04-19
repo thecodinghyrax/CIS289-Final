@@ -7,4 +7,5 @@ app_name = "part_tracker"
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("form/", views.form, name="form"),
 ]

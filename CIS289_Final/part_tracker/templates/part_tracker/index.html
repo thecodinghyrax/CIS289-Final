@@ -3,11 +3,14 @@
 {% block content %}
 
         <h1>Part Tracker</h1>
-        <button id="update-btn">Update</button>
+        <div class="button-row">
+            <button id="update-btn">Update</button>
+            <button id="load-btn">Load Test Data</button>
+        </div>
         {% for item in catagories %}
-        <div class="container-part">
+        <div class="part-container">
 
-            <div class="container-component">
+            <div class="part">
                 <h3>Catagory: {{ item }}</h3>
                 <p>Current Lowest Price: Not set</p>
                 <p>Merchant: Not set</p>

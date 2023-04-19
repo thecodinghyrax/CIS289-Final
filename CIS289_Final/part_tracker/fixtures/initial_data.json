@@ -1,0 +1,206 @@
+[
+    {
+        "model" : "part_tracker.Catagory",
+        "pk" : 1,
+        "fields" : {
+            "name" : "CPU"
+        }
+    },
+    {
+        "model" : "part_tracker.Catagory",
+        "pk" : 2,
+        "fields" : {
+            "name" : "CPU Cooler"
+        }
+    },
+    {
+        "model" : "part_tracker.Catagory",
+        "pk" : 3,
+        "fields" : {
+            "name" : "Graphics Card"
+        }
+    },
+    {
+        "model" : "part_tracker.Catagory",
+        "pk" : 4,
+        "fields" : {
+            "name" : "Motherboard"
+        }
+    },
+    {
+        "model" : "part_tracker.Catagory",
+        "pk" : 5,
+        "fields" : {
+            "name" : "Memory"
+        }
+    },
+    {
+        "model" : "part_tracker.Catagory",
+        "pk" : 6,
+        "fields" : {
+            "name" : "Storage"
+        }
+    },
+    {
+        "model" : "part_tracker.Catagory",
+        "pk" : 7,
+        "fields" : {
+            "name" : "Power Supply"
+        }
+    },
+    {
+        "model" : "part_tracker.Catagory",
+        "pk" : 8,
+        "fields" : {
+            "name" : "Case"
+        }
+    },
+    {
+        "model" : "part_tracker.Catagory",
+        "pk" : 9,
+        "fields" : {
+            "name" : "Operating System"
+        }
+    },
+    {
+        "model" : "part_tracker.Merchant",
+        "pk" : 1,
+        "fields" : {
+            "name" : "NewEgg"
+        }
+    },
+    {
+        "model" : "part_tracker.Merchant",
+        "pk" : 2,
+        "fields" : {
+            "name" : "MemoryC"
+        }
+    },
+    {
+        "model" : "part_tracker.Part",
+        "pk" : 1,
+        "fields" : {
+            "name_from_user" : "Ryzen 9 5900X",
+            "link" : "https://www.newegg.com/amd-ryzen-9-5900x/p/N82E16819113664?Item=N82E16819113664&nm_mc=AFC-RAN-COM&cm_mmc=afc-ran-com-_-PCPartPicker&utm_medium=affiliate&utm_campaign=afc-ran-com-_-PCPartPicker&utm_source=afc-PCPartPicker&AFFID=2558510&AFFNAME=PCPartPicker&ACRID=1&ASID=https%3a%2f%2fpcpartpicker.com%2f&ranMID=44583&ranEAID=2558510&ranSiteID=8BacdVP0GFs-vaMxxmwd.0gap_o2EoEZ_A",
+            "long_name" : "AMD Ryzen 9 5900X - Ryzen 9 5000 Series Vermeer (Zen 3) 12-Core 3.7 GHz Socket AM4 105W None Integrated Graphics Desktop Processor - 100-100000061WOF",
+            "brand" : "AMD",
+            "image_name" : "19-113-664-V01.jpg",
+            "catagory" : 1,
+            "merchant" : 1
+        }
+    },
+    {
+        "model" : "part_tracker.Part",
+        "pk" : 2,
+        "fields" : {
+            "name_from_user" : "Thermalright Peerless Assassin",
+            "link" : "https://www.newegg.com/p/0VE-01P6-00006?Description=Thermalright%20Assassin%20X&cm_re=Thermalright_Assassin%20X-_-9SIBFKMJ673374-_-Product",
+            "long_name" : "Thermalright Peerless Assassin 120 SE CPU Air Cooler, PA120 SE, 6 Heat Pipes Cpu cooler,Dual 120mm TL-C12C PWM Fan, Aluminium Heatsink Cover, AGHP Technology, for AMD AM4 AM5/Intel 1700/1150/1151/1155",
+            "brand" : "Thermalright ",
+            "image_name" : "BFKMS2209050JF0TKB2.jpg",
+            "catagory" : 2,
+            "merchant" : 1
+        }
+    },
+    {
+        "model" : "part_tracker.Part",
+        "pk" : 3,
+        "fields" : {
+            "name_from_user" : "Gigabyte X570S AORUS ELITE AX",
+            "link" : "https://www.newegg.com/gigabyte-x570s-aorus-elite-ax/p/N82E16813145378?Item=N82E16813145378&nm_mc=AFC-RAN-COM&cm_mmc=afc-ran-com-_-PCPartPicker&utm_medium=affiliate&utm_campaign=afc-ran-com-_-PCPartPicker&utm_source=afc-PCPartPicker&AFFID=2558510&AFFNAME=PCPartPicker&ACRID=1&ASID=https%3a%2f%2fpcpartpicker.com%2f&ranMID=44583&ranEAID=2558510&ranSiteID=8BacdVP0GFs-PMJPxniiFiKoHcq0stMaxQ",
+            "long_name" : "GIGABYTE X570S AORUS ELITE AX AMD Ryzen 3000 PCIe 4.0 SATA 6Gb/s USB 3.2 AMD X570S ATX Motherboard",
+            "brand" : "Gigbyte",
+            "image_name" : "13-145-378-V02.jpg",
+            "catagory" : 4,
+            "merchant" : 1
+        }
+    },
+    {
+        "model" : "part_tracker.Part",
+        "pk" : 4,
+        "fields" : {
+            "name_from_user" : "Asus TUF GAMING GeForce RTX 4070 Ti",
+            "link" : "https://www.newegg.com/asus-geforce-rtx-4070-ti-tuf-rtx4070ti-12g-gaming/p/N82E16814126607?Item=N82E16814126607&nm_mc=AFC-RAN-COM&cm_mmc=afc-ran-com-_-PCPartPicker&utm_medium=affiliate&utm_campaign=afc-ran-com-_-PCPartPicker&utm_source=afc-PCPartPicker&AFFID=2558510&AFFNAME=PCPartPicker&ACRID=1&ASID=https%3a%2f%2fpcpartpicker.com%2f&ranMID=44583&ranEAID=2558510&ranSiteID=8BacdVP0GFs-59PwKNZOY4b36sLEJBc4Eg",
+            "long_name" : "ASUS TUF Gaming NVIDIA GeForce RTX 4070 Ti Gaming Graphics Card (PCIe 4.0, 12GB GDDR6X, HDMI 2.1a, DisplayPort 1.4a) TUF-RTX4070TI-12G-GAMING",
+            "brand" : "Asus",
+            "image_name" : "14-126-607-32.jpg",
+            "catagory" : 3,
+            "merchant" : 1
+        }
+    },
+    {
+        "model" : "part_tracker.Part",
+        "pk" : 5,
+        "fields" : {
+            "name_from_user" : "Team T-CREATE EXPERT 32GB (2 x 16GB)",
+            "link" : "https://www.newegg.com/team-32gb-288-pin-ddr4-sdram/p/N82E16820331799?Description=TEAMGROUP%20T-Create%20Expert%2032%20GB&cm_re=TEAMGROUP_T-Create%20Expert%2032%20GB-_-20-331-799-_-Product",
+            "long_name" : "Team T-CREATE EXPERT 32GB (2 x 16GB) 288-Pin PC RAM DDR4 3600 (PC4 28800) Desktop Memory Model TTCED432G3600HC14CDC01",
+            "brand" : "Team",
+            "image_name" : "14-126-607-32.jpg",
+            "catagory" : 5,
+            "merchant" : 1
+        }
+    },
+    {
+        "model" : "part_tracker.Part",
+        "pk" : 6,
+        "fields" : {
+            "name_from_user" : "SAMSUNG 980 PRO M.2 2280 2TB",
+            "link" : "https://www.newegg.com/samsung-2tb-980-pro/p/N82E16820147796?Item=N82E16820147796&nm_mc=AFC-RAN-COM&cm_mmc=afc-ran-com-_-PCPartPicker&utm_medium=affiliate&utm_campaign=afc-ran-com-_-PCPartPicker&utm_source=afc-PCPartPicker&AFFID=2558510&AFFNAME=PCPartPicker&ACRID=1&ASID=https%3a%2f%2fpcpartpicker.com%2f&ranMID=44583&ranEAID=2558510&ranSiteID=8BacdVP0GFs-E2tqsGEfkyZnF6EcOG0auA",
+            "long_name" : "SAMSUNG 980 PRO M.2 2280 2TB PCIe Gen 4.0 x4, NVMe 1.3c Samsung V-NAND Internal Solid State Drive (SSD) MZ-V8P2T0B/AM",
+            "brand" : "Samsung",
+            "image_name" : "20-147-796-V01.jpg",
+            "catagory" : 6,
+            "merchant" : 1
+        }
+    },
+    {
+        "model" : "part_tracker.Part",
+        "pk" : 7,
+        "fields" : {
+            "name_from_user" : "Thermaltake Toughpower Grand RGB 850W",
+            "link" : "https://www.newegg.com/thermaltake-toughpower-grand-rgb-gold-ps-tpg-0850fpcgus-r-850w/p/N82E16817153311?Item=N82E16817153311&nm_mc=AFC-RAN-COM&cm_mmc=afc-ran-com-_-PCPartPicker&utm_medium=affiliate&utm_campaign=afc-ran-com-_-PCPartPicker&utm_source=afc-PCPartPicker&AFFID=2558510&AFFNAME=PCPartPicker&ACRID=1&ASID=https%3a%2f%2fpcpartpicker.com%2f&ranMID=44583&ranEAID=2558510&ranSiteID=8BacdVP0GFs-ZrTHBlOnkYdDpbR2hdcHiA",
+            "long_name" : "Thermaltake Toughpower Grand RGB 850W Smart Zero Fan SLI/CrossFire Ready Continuous Power ATX12V v2.4 / EPS v2.92 80 PLUS GOLD Certified Full Modular Power Supply PS-TPG-0850FPCGUS-R",
+            "brand" : "Thermaltake",
+            "image_name" : "17-153-311-Z01.jpg",
+            "catagory" : 7,
+            "merchant" : 1
+        }
+    },
+    {
+        "model" : "part_tracker.Part",
+        "pk" : 8,
+        "fields" : {
+            "name_from_user" : "COUGAR MX331 Mesh Black",
+            "link" : "https://www.newegg.com/p/N82E16811553063?Description=mesh%20case&cm_re=mesh_case-_-11-553-063-_-Product",
+            "long_name" : "COUGAR MX331 Mesh Black Elegant Mid-Tower Computer Case with Powerful Airflow and Transparent Left Panel",
+            "brand" : "COUGAR",
+            "image_name" : "11-553-063-S01.jpg",
+            "catagory" : 8,
+            "merchant" : 1
+        }
+    },
+    {
+        "model" : "part_tracker.Part",
+        "pk" : 9,
+        "fields" : {
+            "name_from_user" : "Microsoft Windows 11 Home 64-bit",
+            "link" : "https://www.newegg.com/microsoft-windows-11-home/p/N82E16832350881?Item=N82E16832350881&nm_mc=AFC-RAN-COM&cm_mmc=afc-ran-com-_-PCPartPicker&utm_medium=affiliate&utm_campaign=afc-ran-com-_-PCPartPicker&utm_source=afc-PCPartPicker&AFFID=2558510&AFFNAME=PCPartPicker&ACRID=1&ASID=https%3a%2f%2fpcpartpicker.com%2f&ranMID=44583&ranEAID=2558510&ranSiteID=8BacdVP0GFs-1.sp9x_6gBpsMh00BGK9SA",
+            "long_name" : "Microsoft Windows 11 Home 64-bit, DVD - OEM",
+            "brand" : "Microsoft",
+            "image_name" : "32-350-881-V01.jpg",
+            "catagory" : 9,
+            "merchant" : 1
+        }
+    },
+    {
+        "model" : "part_tracker.Price",
+        "pk" : 1,
+        "fields" : {
+            "part" : 9,
+            "price" : 11998,
+            "date" : "2023-04-19 15:21:50.838059"
+        }
+    }
+    
+]

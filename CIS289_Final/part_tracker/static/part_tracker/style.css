@@ -10,23 +10,30 @@ body {
     color: white;
     font-size: large;
 }
-.container-main {
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    width: 80%;
-    background: black url("images/pc.webp") no-repeat;
-}
 
-.container-part {
-    height:20em;
+#load-btn {
+    width: 250px;
+    height: 50px;
+    border-radius: 15px;
+    background-color: yellow;
+    font-size: large;
+}
+/* 
+.container-main {
+    background: black url("images/pc.webp") no-repeat;
+} 
+*/
+
+.part-container {
+    border: 2px yellow solid;
+    border-radius: 20px;
+    height:12em;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
 }
 
-.container-component {
+.part {
     border: 1px black solid;
     border-radius: 15px;
     margin: 0 1em;

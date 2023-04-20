@@ -41,6 +41,14 @@ body {
     height: 100%;
 }
 
+.tracked-parts {
+    border: 1px black solid;
+    border-radius: 15px;
+    margin: 0 1em;
+    width: 20em;
+    height: 100%;
+}
+
 .graph {
     width: 40em;
     border: 1px black solid;

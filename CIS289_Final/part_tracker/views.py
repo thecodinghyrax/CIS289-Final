@@ -23,4 +23,9 @@ def form(request):
     else:
         form = PartForm()
     return render(request, "part_tracker/form.html", {'form':form})
+
+def addPart(request):
+    if request.method == "POST":
+        print(request.POST)
+    return HttpResponseRedirect('/')
     

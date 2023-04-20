@@ -2,26 +2,47 @@
 
 {% block content %}
 
-        <h1>Part Tracker</h1>
-        <div class="button-row">
-            <button id="update-btn">Update</button>
-            <button id="load-btn">Load Test Data</button>
-        </div>
-        {% for item in catagories %}
-        <div class="part-container">
+<h1>Part Tracker</h1>
+<div class="button-row">
+    <button id="update-btn">Update</button>
+    <button id="load-btn">Load Test Data</button>
+</div>
+{% for item in catagories %}
+<div class="part-container">
 
-            <div class="part">
-                <h3>Catagory: {{ item }}</h3>
-                <p>Current Lowest Price: Not set</p>
-                <p>Merchant: Not set</p>
-                <p>Insert Image Here</p>
+    <div class="part">
+        <h3>Catagory: {{ item }}</h3>
+        <p>Current Lowest Price: Not set</p>
+        <p>Merchant: Not set</p>
+        <p>Insert Image Here</p>
+    </div>
+    <div class="tracked-parts">
+        <h3>Tracking</h3>
+        <p>Part 1</p>
+        <p>Part 2</p>
+        <p>Part 3</p>
+    </div>
+
+    <div class="graph">
+        Fancy Graph Here
+    </div>
+
+</div>
+<div class="add-part">
+    <form class="form-inline" action="{% url 'part_tracker:addPart' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group mx-sm-3 mb-2">
+            <div class="input-group">
+                <div class="input-group-append">
+
+                    <button type="submit" class="btn btn-primary me-2">App Part</button>
+                </div>
+                <input type="text" name="link" class="form-control" id="inputPartLink" placeholder="Parts Link">
             </div>
-
-            <div class="graph">
-                Fancy Graph Here
-            </div>
-
+            <input type="hidden" name="catagory" value="{{ item }}">
         </div>
-        {% endfor %}
+    </form>
+</div>
+{% endfor %}
 
 {% endblock %}

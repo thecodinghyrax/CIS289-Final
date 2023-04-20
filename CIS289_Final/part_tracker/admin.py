@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Catagory, MerchantPart, PartModel, Merchant, Price
+from .models import Catagory, Part, Merchant, Price
 
 class CatagoryAdmin(admin.ModelAdmin):
     fields = ["name"]
@@ -10,11 +10,11 @@ class CatagoryAdmin(admin.ModelAdmin):
 admin.site.register(Catagory, CatagoryAdmin)
 
     
-class PartModelAdmin(admin.ModelAdmin):
-    fields = ["catagory", "name_from_user", "long_name", "brand", "image_name"]
-    list_display = ["catagory", "name_from_user", "long_name", "brand", "image_name"]
+class PartAdmin(admin.ModelAdmin):
+    fields = ["name_from_user", "link", "long_name", "brand", "image_name", "catagory", "merchant"]
+    list_display = ["name_from_user", "link", "long_name", "brand", "image_name", "catagory", "merchant"]
     
-admin.site.register(PartModel, PartModelAdmin)
+admin.site.register(Part, PartAdmin)
 
 
 class MerchantAdmin(admin.ModelAdmin):
@@ -24,29 +24,29 @@ class MerchantAdmin(admin.ModelAdmin):
 admin.site.register(Merchant, MerchantAdmin)
 
 
-class MerchantPartAdmin(admin.ModelAdmin):
-    fields = [
-        "model",
-        "merchant",
-        "link"
-    ]
-    list_display = [
-        "model",
-        "merchant",
-        "link"
-    ]
+# class MerchantPartAdmin(admin.ModelAdmin):
+#     fields = [
+#         "model",
+#         "merchant",
+#         "link"
+#     ]
+#     list_display = [
+#         "model",
+#         "merchant",
+#         "link"
+#     ]
 
     
-admin.site.register(MerchantPart, MerchantPartAdmin)
+# admin.site.register(MerchantPart, MerchantPartAdmin)
 
 class PriceAdmin(admin.ModelAdmin):
     fields = [
-        "merchant_part",
+        "part",
         "price",
         "date"
     ]
     list_display = [
-        "merchant_part",
+        "part",
         "price",
         "date"
     ]

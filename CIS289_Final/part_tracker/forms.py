@@ -1,10 +1,10 @@
 from django import forms
-from .models import PartModel, MerchantPart, Catagory
+from .models import Part, Catagory
 
-class PartModelForm(forms.ModelForm):
+class PartForm(forms.ModelForm):
     catagory = forms.ModelChoiceField(queryset=Catagory.objects.all())
     class Meta:
-        model = PartModel
+        model = Part
         fields = ['catagory', 'name_from_user']
         labels = {
             'catagory' : "Catagory",

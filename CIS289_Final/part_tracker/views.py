@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Catagory, Merchant, PartManager, Part
+from .models import Catagory, Merchant, Part
 from .forms import PartForm
 from .newegg_scrape import NewEggData
 from .memoryc_scrape import MemoryCData
+from .repository import Repository as repo
 
 
 # Create your views here.
 def index(request):
+    
     catagories = Catagory.objects.order_by("-id")
     parts = Part.objects.all()
     context = {

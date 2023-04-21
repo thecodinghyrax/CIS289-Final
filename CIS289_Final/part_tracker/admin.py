@@ -11,8 +11,8 @@ admin.site.register(Catagory, CatagoryAdmin)
 
     
 class PartAdmin(admin.ModelAdmin):
-    fields = ["name_from_user", "link", "long_name", "brand", "image_name", "catagory", "merchant"]
-    list_display = ["name_from_user", "link", "long_name", "brand", "image_name", "catagory", "merchant"]
+    fields = ["link", "long_name", "brand", "image", "catagory", "merchant"]
+    list_display = ["link", "long_name", "brand", "image", "catagory", "merchant"]
     
 admin.site.register(Part, PartAdmin)
 

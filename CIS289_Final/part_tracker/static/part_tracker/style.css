@@ -27,7 +27,7 @@ body {
 .part-container {
     border: 2px yellow solid;
     border-radius: 20px;
-    height:12em;
+    /* height:12em; */
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -54,4 +54,8 @@ body {
     border: 1px black solid;
     border-radius: 15px;
 
+}
+
+.part-img {
+    width: 50%;
 }

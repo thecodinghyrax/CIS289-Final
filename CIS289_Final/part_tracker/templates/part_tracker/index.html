@@ -12,9 +12,15 @@
 
     <div class="part">
         <h3>Catagory: {{ item }}</h3>
-        <p>Current Lowest Price: Not set</p>
-        <p>Merchant: Not set</p>
-        <p>Insert Image Here</p>
+        {% for part in parts %}
+        {% if part.catagory == item %}
+        <p>Merchant: {{ part.merchant }}</p>
+        <p>Name: {{ part.long_name }}</p>
+        <p>Brand: {{ part.brand }}</p>
+        <img class="part-img" src="{{ part.image }}" alt="PC Case" >
+        {% endif %}
+        {% endfor %}
+
     </div>
     <div class="tracked-parts">
         <h3>Tracking</h3>
@@ -28,14 +34,14 @@
     </div>
 
 </div>
-<div class="add-part">
+<div class="add-part mt-2">
     <form class="form-inline" action="{% url 'part_tracker:addPart' %}" method="post">
         {% csrf_token %}
         <div class="form-group mx-sm-3 mb-2">
             <div class="input-group">
                 <div class="input-group-append">
 
-                    <button type="submit" class="btn btn-primary me-2">App Part</button>
+                    <button type="submit" class="btn btn-primary me-2">Add Part</button>
                 </div>
                 <input type="text" name="link" class="form-control" id="inputPartLink" placeholder="Parts Link">
             </div>

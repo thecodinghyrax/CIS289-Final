@@ -4,14 +4,16 @@ import requests
 
 
 class NewEggData:
-    def __init__(self, url):
+    def __init__(self, url, catagory, merchant):
+        self.url = url
+        self.catagory = catagory
+        self.merchant = merchant
         self.page = requests.get(url)
         self.soup = bs(self.page.content, 'html.parser')
         self.scripts = self.soup.find_all(name='script')
         self.data = self.get_data()
         self.price = self.get_price()
         self.long_name = self.get_long_name()
-        self.short_name = self.get_short_name()
         self.brand = self.get_brand()
         self.image = self.get_image()
         self.valid = True
@@ -47,14 +49,6 @@ class NewEggData:
             print(f"short name not found: {e}")
             return "Not Found"
     
-    def get_short_name(self):
-        try:
-            return self.data['mpn']
-        except Exception as e:
-            self.valid = False
-            print(f"mpn not found: {e}")
-            return "Not Found"
-    
     def get_brand(self):
         try:
             return self.data['brand']
@@ -82,8 +76,21 @@ class NewEggData:
             print(f"mpn not found: {e}")
             return False
         
+        
     def link_valid(self):
         return self.valid
+    
+    
+    def get_data_dict(self):
+        data = {
+                "link" : self.url,
+                "long_name": self.long_name,
+                "brand" : self.brand,
+                "image" : self.image,
+                "catagory" : self.catagory,
+                "merchant" : self.merchant
+                }
+        return data
 
 if __name__ == "__main__":
     pass

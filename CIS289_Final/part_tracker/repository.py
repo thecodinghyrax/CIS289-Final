@@ -27,11 +27,11 @@ class Repository:
     def get_parts(self):
         return Part.objects.all()
 
-    def get_parts_by_catagory(self, catagory_name):
+    def get_parts_by_catagory_name(self, catagory_name):
         catagory = self.get_catagory_by_name(catagory_name)
         return Part.objects.filter(catagory=catagory.id)
 
-    def get_parts_by_long_name(self, long_name):
+    def get_part_by_long_name(self, long_name):
         return Part.objects.filter(long_name=long_name)
 
     def get_part_by_id(self, id):
@@ -43,8 +43,11 @@ class Repository:
                 part = Part.objects.create_part(cls)
                 part.save()
                 print("Saved successfully")
+                return True
             except Exception as e:
                 print(f"{part.long_name} not saved. {e}")
+                return False
+        return False
 
 
     def get_prices(self):
@@ -63,4 +66,4 @@ class Repository:
         return NewEggData(url, catagory, merchant)
     
     def create_memoryc_scrape(self, request):
-        ...
+        raise NotImplementedError

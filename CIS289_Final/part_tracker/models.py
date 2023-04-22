@@ -49,15 +49,6 @@ class Part(models.Model):
         return self.name_from_user
     
 
-# # This will be added after the user gets the link they want
-# class MerchantPart(models.Model):
-#     model = models.ForeignKey(PartModel, on_delete=models.CASCADE)
-#     merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE)
-#     link = models.CharField(max_length=2000)
-#     def __str__(self):
-#         return self.model.name_from_user + " - " + self.merchant.name
-    
-
 # Price will be entered by the scrapping code
 class Price(models.Model):
     part = models.ForeignKey(Part, on_delete=models.CASCADE)

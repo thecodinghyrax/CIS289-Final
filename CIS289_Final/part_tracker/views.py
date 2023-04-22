@@ -1,17 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Catagory, Merchant, Part
 from .forms import PartForm
-from .newegg_scrape import NewEggData
-from .memoryc_scrape import MemoryCData
-from .repository import Repository as repo
+from .repository import Repository
 
 
 # Create your views here.
 def index(request):
-    
-    catagories = Catagory.objects.order_by("-id")
-    parts = Part.objects.all()
+    repo = Repository()
+    catagories = repo.get_catagories()
+    parts = repo.get_parts()
     context = {
                 "catagories": catagories,
                 "parts" :parts
@@ -33,22 +30,20 @@ def form(request):
     return render(request, "part_tracker/form.html", {'form':form})
 
 def addPart(request):
+    repo = Repository()
     if request.method == "POST":
-        url = request.POST['link']
-        catagory = Catagory.objects.get(name=(request.POST['catagory']))
-        merchant = Merchant.objects.get(name='NewEgg')
-        if "newegg" in url.lower():
-            scraped_part = NewEggData(url, catagory, merchant)
+        if "newegg" in request.POST['link'].lower():
+            scraped_part = repo.create_newegg_scrape(request)
             if scraped_part.valid:
                 try:
-                    part = Part.objects.create_part(scraped_part.get_data_dict())
+                    part = repo.create_part_from_scrap(scraped_part.get_data_dict())
                     part.save()
                     print("Saved to the database")
                 except Exception as e:
                     print(e)
             else:
-                print("fail")
-        elif "memoryc" in url.lower():
+                print("Scrap is not valid")
+        elif "memoryc" in request.POST['link'].lower():
             pass
     return HttpResponseRedirect('/')
     

@@ -37,18 +37,18 @@ class Repository:
     def get_part_by_id(self, id):
         return Part.objects.get(id=id)
 
-    def create_part(self, cls):
-        if cls.valid:
+    def create_part_from_scrape(self, part_dict):
+        if part_dict["valid"]:
             try:
-                part = Part.objects.create_part(cls)
-                part.save()
-                print("Saved successfully")
-                return True
+                part = Part.objects.create_part(part_dict)
+                return part
             except Exception as e:
-                print(f"{part.long_name} not saved. {e}")
-                return False
-        return False
+                print(f"Scrap could not be converted to Part. {e}")
+                return None
+        return None
 
+    def del_part_by_id(self, id):
+        self.get_part_by_id(id).delete()
 
     def get_prices(self):
         return Price.objects.order_by("date")
@@ -59,6 +59,9 @@ class Repository:
     def get_price_by_id(self, id):
         return Price.objects.get(id=id)
 
+    def del_price_by_id(self, id):
+        self.get_price_by_id(id).delete()
+
     def create_newegg_scrape(self, request):
         url = request.POST['link']
         catagory = self.get_catagory_by_name(request.POST['catagory'])
@@ -67,3 +70,4 @@ class Repository:
     
     def create_memoryc_scrape(self, request):
         raise NotImplementedError
+    

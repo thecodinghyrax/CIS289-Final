@@ -2,8 +2,9 @@ from django.test import TestCase
 from ..repository import Repository
 from ..newegg_scrape import NewEggData
 from ..memoryc_scrape import MemoryCData
-from ..models import Part, Price
+from ..models import Part, Price, Catagory, Merchant
 import mock
+from django.test.client import RequestFactory
 
 # Create your tests here.
 class RepositoryTest(TestCase):
@@ -11,7 +12,25 @@ class RepositoryTest(TestCase):
     def setUp(self) -> None:
         self.repo = Repository()
 
-
+        self.part_dict_valid = {
+                "link" : "https://parts.com",
+                "long_name": "Name of valid part",
+                "brand" : "Valid industries",
+                "image" : "https://picture.com/valid-part",
+                "catagory" : self.repo.get_catagory_by_name('CPU'),
+                "merchant" : self.repo.get_merchant_by_name('NewEgg'),
+                "valid" : True,
+                }
+        self.part_dict_invalid = {
+                "link" : "https://parts.com",
+                "long_name": "Name of invalid part",
+                "brand" : "Invalid industries",
+                "image" : "https://picture.com/invalid-part",
+                "catagory" : self.repo.get_catagory_by_name('CPU'),
+                "merchant" : self.repo.get_merchant_by_name('NewEgg'),
+                "valid" : False,
+                }
+        
         
     def test_get_catagories(self):
         # Arrange
@@ -126,21 +145,22 @@ class RepositoryTest(TestCase):
         self.assertEquals(actual, expected)
 
     # Cant figure out how to mock this. Moving on
-    # def test_createpart(self):
-    #     # Arrange
-    #     scraped_part_mock = mock.Mock(spec=NewEggData)
-    #     scraped_part_mock.valid = True
-    #     created_part_mock = mock.Mock()
-    #     created_part_mock.long_name = "Second mocked Part"
-    #     created_part_mock.save.return_value = True
-    #     part_mock = mock.Mock(spec=Part)
-    #     part_mock.long_name = "First mocked part"
-    #     part_mock.objects = created_part_mock
-    #     expected = True
-    #     # Act
-    #     actual = self.repo.create_part(scraped_part_mock)
-    #     # Assert
-    #     self.assertEquals(actual, expected)
+    def test_create_part_from_scrape_valid(self):
+        # Arrange
+        expected = "https://picture.com/valid-part"
+        # Act
+        part = self.repo.create_part_from_scrape(self.part_dict_valid)
+        actual = part.image
+        # Assert
+        self.assertEquals(actual, expected)
+
+    def test_del_part_by_id(self):
+        # Act
+        self.repo.del_part_by_id(1)
+        # # Assert
+        with self.assertRaises(Part.DoesNotExist): 
+            self.repo.get_part_by_id(1)
+
     def test_get_prices_both(self):
         # Arrange
         first_expected = 11998
@@ -172,13 +192,24 @@ class RepositoryTest(TestCase):
         # Assert
         self.assertEquals(actual, expected)
 
-    # def test_create_newegg_screap(self):
-    #     # Arrange
-    #     expected = ?
-    #     # Act
-    #     actual = ?
-    #     # Assert
-    #     self.assertEquals(actual, expected)
+    def test_del_price_by_id(self):
+        # Act
+        self.repo.del_price_by_id(1)
+        # # Assert
+        with self.assertRaises(Price.DoesNotExist): 
+            self.repo.get_price_by_id(1)
+
+    def test_create_newegg_screap(self):
+        # Arrange
+        rf = RequestFactory()
+        post_request = rf.post('/', {'link' : 'https://fake.com',
+                                     'catagory' : 'CPU'})
+        expected = False
+        # Act
+        newegg_object = self.repo.create_newegg_scrape(post_request)
+        actual = newegg_object.valid
+        # Assert
+        self.assertEquals(actual, expected)
 
     # def test_create_memoryC_scrape(self):
     #     # Arrange
@@ -187,3 +218,4 @@ class RepositoryTest(TestCase):
     #     actual = ?
     #     # Assert
     #     self.assertEquals(actual, expected)
+

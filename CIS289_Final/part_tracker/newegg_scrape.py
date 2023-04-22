@@ -8,6 +8,7 @@ class NewEggData:
         self.url = url
         self.catagory = catagory
         self.merchant = merchant
+        self.valid = True
         self.page = requests.get(url)
         self.soup = bs(self.page.content, 'html.parser')
         self.scripts = self.soup.find_all(name='script')
@@ -16,7 +17,6 @@ class NewEggData:
         self.long_name = self.get_long_name()
         self.brand = self.get_brand()
         self.image = self.get_image()
-        self.valid = True
         
         
     def get_data(self):
@@ -25,9 +25,9 @@ class NewEggData:
                 intro = str(script)[:200]
                 if 'Offer' in intro:
                     return json.loads(script.contents[0])
+                self.valid = False
             except Exception as e:
                 self.valid = False
-                print(f"price not found: {e}")
                 return None
 
 
@@ -37,7 +37,6 @@ class NewEggData:
             return int(float(price) * 100)
         except Exception as e:
             self.valid = False
-            print(f"price not found: {e}")
             return -1
     
     
@@ -46,7 +45,6 @@ class NewEggData:
             return self.data['name']
         except Exception as e:
             self.valid = False
-            print(f"short name not found: {e}")
             return "Not Found"
     
     def get_brand(self):
@@ -54,7 +52,6 @@ class NewEggData:
             return self.data['brand']
         except Exception as e:
             self.valid = False
-            print(f"brand not found: {e}")
             return "Not Found"
     
     def get_image(self):
@@ -62,7 +59,6 @@ class NewEggData:
             return self.data['image']
         except Exception as e:
             self.valid = False
-            print(f"image not found: {e}")
             return "Not Found"    
     
     def get_stock(self):
@@ -73,7 +69,6 @@ class NewEggData:
             return False
         except Exception as e:
             self.valid = False
-            print(f"mpn not found: {e}")
             return False
         
         
@@ -88,7 +83,8 @@ class NewEggData:
                 "brand" : self.brand,
                 "image" : self.image,
                 "catagory" : self.catagory,
-                "merchant" : self.merchant
+                "merchant" : self.merchant,
+                "valid" : self.valid,
                 }
         return data
 

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import PartForm
 from .repository import Repository
+import threading
 
 
 # Create your views here.
@@ -55,4 +56,21 @@ def delPart(request):
             repo.del_part_by_id(request.POST['id'])
         except Exception as e:
             print(f"Could not delete {request.POST['id']}. {e}")
+    return HttpResponseRedirect('/')
+
+def updatePrices(request):
+    if request.method == "POST":
+        repo = Repository()
+        parts = repo.get_parts()
+    def update_part_price(part):
+        try:
+            price = repo.create_price_from_scrape(part)
+            price.save()
+        except Exception as e:
+            print(e)
+
+    for part in parts:
+        thread = threading.Thread(target=update_part_price, args=(part,))
+        thread.start()
+        
     return HttpResponseRedirect('/')

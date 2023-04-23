@@ -24,16 +24,18 @@ class NewEggData:
             try:
                 intro = str(script)[:200]
                 if 'Offer' in intro:
+                    print('offer found. returning contents as json')
                     return json.loads(script.contents[0])
-                self.valid = False
             except Exception as e:
                 self.valid = False
                 return None
+        self.valid = False
 
 
     def get_price(self):
         try:
             price = self.data['offers']['price']
+            print(f"get_price: {price}")
             return int(float(price) * 100)
         except Exception as e:
             self.valid = False

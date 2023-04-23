@@ -36,14 +36,23 @@ def addPart(request):
             scraped_part = repo.create_newegg_scrape(request)
             if scraped_part.valid:
                 try:
-                    part = repo.create_part_from_scrap(scraped_part.get_data_dict())
+                    part = repo.create_part_from_scrape(scraped_part.get_data_dict())
                     part.save()
                     print("Saved to the database")
                 except Exception as e:
                     print(e)
             else:
-                print("Scrap is not valid")
+                print("Scrape is not valid")
         elif "memoryc" in request.POST['link'].lower():
             pass
     return HttpResponseRedirect('/')
     
+def delPart(request):
+    print(request.POST['id'])
+    repo = Repository()
+    if request.method == "POST":
+        try:
+            repo.del_part_by_id(request.POST['id'])
+        except Exception as e:
+            print(f"Could not delete {request.POST['id']}. {e}")
+    return HttpResponseRedirect('/')

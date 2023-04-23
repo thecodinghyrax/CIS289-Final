@@ -24,19 +24,24 @@ class NewEggData:
             try:
                 intro = str(script)[:200]
                 if 'Offer' in intro:
+                    print('offer found. returning contents as json')
                     return json.loads(script.contents[0])
-                self.valid = False
+                print("In the get_data method, I just set valid to False")
             except Exception as e:
                 self.valid = False
+                print("In the get_data method Exception, I just set valid to False")
                 return None
+        self.valid = False
 
 
     def get_price(self):
         try:
             price = self.data['offers']['price']
+            print(f"get_price: {price}")
             return int(float(price) * 100)
         except Exception as e:
             self.valid = False
+            print("In the get_price method Exception, I just set valid to False")
             return -1
     
     
@@ -45,6 +50,7 @@ class NewEggData:
             return self.data['name']
         except Exception as e:
             self.valid = False
+            print("In the get_long_name method Exception, I just set valid to False")
             return "Not Found"
     
     def get_brand(self):
@@ -52,6 +58,7 @@ class NewEggData:
             return self.data['brand']
         except Exception as e:
             self.valid = False
+            print("In the get_brand method Exception, I just set valid to False")
             return "Not Found"
     
     def get_image(self):
@@ -59,6 +66,7 @@ class NewEggData:
             return self.data['image']
         except Exception as e:
             self.valid = False
+            print("In the get_image method Exception, I just set valid to False")
             return "Not Found"    
     
     def get_stock(self):
@@ -69,6 +77,7 @@ class NewEggData:
             return False
         except Exception as e:
             self.valid = False
+            print("In the get_stock method Exception, I just set valid to False")
             return False
         
         

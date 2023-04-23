@@ -13,12 +13,49 @@
     <div class="part">
         <h3>Catagory: {{ item }}</h3>
         {% for part in parts %}
-        {% if part.catagory == item %}
-        <p>Merchant: {{ part.merchant }}</p>
-        <p>Name: {{ part.long_name }}</p>
-        <p>Brand: {{ part.brand }}</p>
-        <img class="part-img" src="{{ part.image }}" alt="PC Case" >
-        {% endif %}
+            {% if part.catagory == item %}
+                <p>Merchant: {{ part.merchant }}</p>
+                <p>Name: {{ part.long_name }}</p>
+                <p>Brand: {{ part.brand }}</p>
+                <p>ID: {{ part.id }}</p>
+                <img class="part-img" src="{{ part.image }}" alt="PC Case">
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confModal{{part.id}}">
+                    Delete
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="confModal{{part.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-dark">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body bg-dark">
+                                Are you sure you would like to delete {{ part.long_name }} ID {{ part.id }}?
+                            </div>
+                            <div class="modal-footer bg-dark">
+                                <form class="form-inline" action="{% url 'part_tracker:delPart' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group mx-sm-3 mb-2">
+                                        <div class="input-group">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-danger me-2">Delete</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="id" value="{{ part.id }}">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            {% endif %}
         {% endfor %}
 
     </div>

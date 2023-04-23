@@ -4,8 +4,10 @@
 
 <h1>Part Tracker</h1>
 <div class="button-row">
-    <button id="update-btn">Update</button>
-    <button id="load-btn">Load Test Data</button>
+    <form class="form-inline" action="{% url 'part_tracker:updatePrices' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" id="update-btn">Update Prices</button>
+    </form>
 </div>
 
 {% for item in catagories %}

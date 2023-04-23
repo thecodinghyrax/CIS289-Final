@@ -1,6 +1,7 @@
 from .models import Catagory, Merchant, Part, Price
 from .newegg_scrape import NewEggData
 from .memoryc_scrape import MemoryCData
+from datetime import datetime
 
 class Repository:
 
@@ -62,12 +63,24 @@ class Repository:
     def del_price_by_id(self, id):
         self.get_price_by_id(id).delete()
 
+    def create_price_from_scrape(self, part):
+        url = part.link
+        catagory = part.catagory
+        merchant = part.merchant
+        data = NewEggData(url, catagory, merchant)
+        price = Price()
+        price.part = part
+        price.price = data.get_price()
+        return price
+
+
     def create_newegg_scrape(self, request):
         url = request.POST['link']
         catagory = self.get_catagory_by_name(request.POST['catagory'])
         merchant = self.get_merchant_by_name('NewEgg')
         return NewEggData(url, catagory, merchant)
     
+
     def create_memoryc_scrape(self, request):
         raise NotImplementedError
     

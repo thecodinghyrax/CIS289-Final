@@ -23,18 +23,18 @@ body {
     background: black url("images/pc.webp") no-repeat;
 } 
 */
-
-.part-container {
+.part-grid {
     border: 2px yellow solid;
     border-radius: 20px;
-    /* height:12em; */
+    padding: 1em;
+}
+.part-container {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
 }
 
 .part {
-    border: 1px black solid;
     border-radius: 15px;
     margin: 0 1em;
     width: 20em;
@@ -42,7 +42,6 @@ body {
 }
 
 .tracked-parts {
-    border: 1px black solid;
     border-radius: 15px;
     margin: 0 1em;
     width: 20em;
@@ -51,7 +50,6 @@ body {
 
 .graph {
     width: 40em;
-    border: 1px black solid;
     border-radius: 15px;
 
 }

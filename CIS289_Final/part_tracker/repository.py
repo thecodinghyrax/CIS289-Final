@@ -76,7 +76,7 @@ class Repository:
         current_prices_queryset = self.get_current_prices()
         current_df = pd.DataFrame.from_records(current_prices_queryset)
         revised_df = current_df.sort_values('price', ascending=False).drop_duplicates('part__catagory__name').sort_index()
-        revised_df['percentage'] = revised_df['price'] / revised_df['price'].sum()
+        revised_df['percentage'] = revised_df['price'] / revised_df['price'].sum() * 100
 
         return revised_df.to_dict()
         # https://docs.djangoproject.com/en/4.2/topics/db/queries/#expressions-can-reference-transforms

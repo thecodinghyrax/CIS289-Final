@@ -11,37 +11,17 @@ class BudgetGraph:
     def __init__(self):
         self.repo = Repository()
         self.current_prices_data = self.repo.get_lowest_catagory_prices()
-        # self.parts = self.repo.get_parts()
-        # self.price_list = self._create_price_list()
-        
-    def data(self):
-        return self.repo.get_lowest_catagory_prices()
-    
-    
-    # def _create_price_dict(self):
-    #     price_dict = {}
-    #     for part in self.parts:
-    #         if price_dict[part.catagory]:
-    #             print(price_dict[part.catagory])
-    #         else:
-    #             price_dict[part.catagory] = part
-    #         # If there is more than one part of the same catagory I need to find the lowest price 
-    #         lowest_value = []
-    #         for price in self.current_prices:
-    #             if part.part_id == price.part_id:
-    #                 lowest_value.append(price.price)
-    #         price_list.append(min(lowest_value))
-    #     return price_list
+
         
     def graph_donut(self):
         data = {
             'components' : list(self.current_prices_data['part__catagory__name'].values()),
             'percentages' : list(self.current_prices_data['percentage'].values())
             }
-        # print(Sunset[9])
+        
         angles = []
         for count, percent in enumerate(data['percentages']):
-            angles.append(radians((percent) * 360))
+            angles.append(radians((percent / 100) * 360))
             if count != 0:
                 angles[count] += angles[count -1]
         data['start'] = [0] + angles[:-1]
@@ -58,61 +38,11 @@ class BudgetGraph:
                 start_angle="start", end_angle="end", line_color="white",
                 fill_color="colors", legend_field="components", source=source)
                 
-                # fill_color=Sunset[len(data['components'])], legend_field="components", source=source)
 
         p.axis.axis_label = None
         p.axis.visible = False
         p.grid.grid_line_color= None
-        # xdr = Range1d(start=-2, end=2)
-        # ydr = Range1d(start=-2, end=2)
-        
-        # # Setup plot
-        # plot = Plot(x_range=xdr, y_range=ydr)
-        # plot.title.text = "Budget"
-        # plot.toolbar_location = None
-        
-        # # percentages will be in decimal form
-        # percentages = self.current_prices_data['precentages']
-        # # for price in 
-        
-        # colors = {
-        #     "Graphics Card" : "red",
-        #     "CPU" : "blue",
-        #     "Motherboard" : "green",
-        #     "Storage" : "yellow",
-        #     "Power Supply" : "tan",
-        #     "Memory" : "rosybrown",
-        #     "Operating System" : "aqua",
-        #     "Case" : "gainsboro",
-        #     "CPU Cooler" : ""
-            
-        # }
-        
-        # angles = []
-        # for count, percent in enumerate(percentages):
-        #     angles.append(radians((percent) * 360))
-        #     if count != 0:
-        #         angles[count] += angles[count -1]
 
-        # activity_source = ColumnDataSource(dict(
-        #     start = [0] + angles[:-1],
-        #     end   = angles,
-        #     colors = list(colors.values())
-        # ))
-        
-        # # Create glyph with chart data and add to plot
-        # glyph = AnnularWedge(x=0, y=0, inner_radius=0.9, outer_radius=1.8,
-        #                     start_angle_units="rad", start_angle="start", end_angle="end",
-        #                     line_color="white", line_width=3, fill_color="colors")
-        
-        # r = plot.add_glyph(activity_source, glyph)
-        
-        # # Configure legend
-        # legend = Legend(location="center")
-        # for i, name in enumerate(colors):
-        #     legend.items.append(LegendItem(label=name, renderers=[r], index=i))
-        # plot.add_layout(legend, "center")
-        # Create web components
         script, div = components(p, CDN)
 
         return {"the_script": script, "the_div": div }

@@ -10,9 +10,11 @@ def index(request):
     repo = Repository()
     catagories = repo.get_catagories()
     parts = repo.get_parts()
+    prices = repo.get_current_prices()
     context = {
                 "catagories": catagories,
-                "parts" :parts
+                "parts" :parts,
+                "prices" : prices
                 }
     return render(request, "part_tracker/index.html", context)
 
@@ -72,5 +74,5 @@ def updatePrices(request):
     for part in parts:
         thread = threading.Thread(target=update_part_price, args=(part,))
         thread.start()
-        
+
     return HttpResponseRedirect('/')

@@ -1,5 +1,5 @@
 {% extends "./base.html" %}
-
+{% load tracker_extras %}
 {% block content %}
 
 <h1>Part Tracker</h1>
@@ -28,7 +28,11 @@
                 {% endwith %}
                 {% endwith %}
                 <p>Brand: {{ part.brand }}</p>
-                <p>Current Price: $xxx.xx{{ price}}</p>
+                {% for price in prices %}
+                {% if price.part_id == part.id %}
+                <p>Current Price: ${{ price.price|multiply:"0.01" }}</p>
+                {% endif %}
+                {% endfor %}
                 <a href="{{ part.link }}">
                     <img class="part-img" src="{{ part.image }}" alt="PC Case">
                 </a>

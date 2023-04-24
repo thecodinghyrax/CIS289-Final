@@ -29,7 +29,7 @@
                 {% endwith %}
                 <p>Brand: {{ part.brand }}</p>
                 {% for price in prices %}
-                {% if price.part_id == part.id %}
+                {% if price.part == part.id %}
                 <p>Current Price: ${{ price.price|multiply:"0.01" }}</p>
                 {% endif %}
                 {% endfor %}

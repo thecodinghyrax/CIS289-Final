@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import PartForm
 from .repository import Repository
+from .charts import BudgetGraph
 import threading
 
 
@@ -76,3 +77,10 @@ def updatePrices(request):
         thread.start()
 
     return HttpResponseRedirect('/')
+
+def test(request):
+    graph = BudgetGraph()
+    # data = graph.data()
+    donut = graph.graph_donut()
+    print(donut)
+    return render(request, "part_tracker/test.html", donut)

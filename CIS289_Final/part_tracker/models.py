@@ -46,7 +46,7 @@ class Part(models.Model):
     objects = PartManager()
     
     def __str__(self):
-        return self.name_from_user
+        return f"ID: {self.id} trunc name: {self.long_name[:20]}"
     
 
 # Price will be entered by the scrapping code

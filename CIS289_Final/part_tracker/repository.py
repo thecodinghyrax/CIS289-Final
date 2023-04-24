@@ -1,5 +1,5 @@
 from .models import Catagory, Merchant, Part, Price
-from django.db.models import Max
+import pandas as pd
 from .newegg_scrape import NewEggData
 from .memoryc_scrape import MemoryCData
 from datetime import datetime
@@ -65,9 +65,22 @@ class Repository:
         self.get_price_by_id(id).delete()
 
     def get_current_prices(self):
-        unique_part_count = Price.objects.values('part_id').distinct()
-        current_prices = Price.objects.values('part_id', 'price').order_by('-date')[:len(unique_part_count)]
+        unique_part_count = len(Price.objects.values('part_id').distinct())
+        current_prices = Price.objects.all().values('part', 'price', 'date', 'part__catagory__name').order_by('-price')[:unique_part_count]
+        
         return current_prices
+    
+    def get_lowest_catagory_prices(self):
+        # I have fought this for half a day now. I was trying to use the django orm to 
+        # get the current highest price for each unique catagory but I cant make it work. Pandas to the rescue
+        current_prices_queryset = self.get_current_prices()
+        current_df = pd.DataFrame.from_records(current_prices_queryset)
+        revised_df = current_df.sort_values('price', ascending=False).drop_duplicates('part__catagory__name').sort_index()
+        revised_df['percentage'] = revised_df['price'] / revised_df['price'].sum()
+
+        return revised_df.to_dict()
+        # https://docs.djangoproject.com/en/4.2/topics/db/queries/#expressions-can-reference-transforms
+        
 
     def create_price_from_scrape(self, part):
         url = part.link

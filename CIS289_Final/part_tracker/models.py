@@ -53,7 +53,7 @@ class Part(models.Model):
 class Price(models.Model):
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
     price = models.IntegerField(default=0)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=False)
     # date = models.DateTimeField("Price Date")
     def __str__(self):
         return '$' + '{:.2f}'.format(self.price * 0.01)

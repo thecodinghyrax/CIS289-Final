@@ -3,18 +3,24 @@
 {% block content %}
 
 <h1>Part Tracker</h1>
-<div class="button-row">
+<div class="button-row mb-2">
     <form class="form-inline" action="{% url 'part_tracker:updatePrices' %}" method="post">
         {% csrf_token %}
-        <button type="submit" id="update-btn">Update Prices</button>
+        <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#chartCollapse"
+            aria-expanded="false" aria-controls="chartCollapse">View Budget Chart</button>
+        <button type="submit" id="update-btn" class="btn btn-success">Update Prices</button>
     </form>
+    <div class="pie-chart collapse" id="chartCollapse">
+        {{ pie.the_div|safe }}
+        {{ pie.the_script|safe }}
+    </div>
 </div>
 
 {% for item in catagories %}
 <div class="part-grid">
     <h3>Catagory: {{ item }}</h3>
-    <div class="part-container "> <!--Parts and graph-->
-        <div class="part row"> <!--All Parts-->
+    <div class="part-container"> <!--Parts and graph-->
+        <div class="part row border"> <!--All Parts-->
             {% for part in parts %}
             {% if part.catagory == item %}
             <div class="col"><!--Each part-->
@@ -39,20 +45,15 @@
 
                 <!-- Button trigger modal -->
                 <div class="container p-0">
-                    <div class="row justify-content-start">
-                        <div class="col-3 pr-2">
-
-                            <button class="btn btn-success" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#addPartCollapse" aria-expanded="false"
-                                aria-controls="addPartCollapse">+</button>
-                        </div>
-                        <div class="col-3">
-
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#confModal{{part.id}}">
-                                -
-                            </button>
-                        </div>
+                    <!-- <div class="row justify-content-start"> -->
+                    <div class="button-row">
+                        <button class="btn btn-success" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#addPartCollapse" aria-expanded="false"
+                            aria-controls="addPartCollapse">+</button>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#confModal{{part.id}}">
+                            -
+                        </button>
                     </div>
                 </div>
 
@@ -90,16 +91,16 @@
                 </div>
 
 
-                
+
             </div><!--End EachPart-->
             {% endif %}
             {% endfor %}
         </div><!--End All Parts-->
 
-        <div class="graph col">
-            Fancy Graph Here
-        </div>
     </div><!--EndParts and graph-->
+    <div class="graph col">
+        Fancy Graph Here
+    </div>
 </div>
 
 <div class="add-part mt-2">

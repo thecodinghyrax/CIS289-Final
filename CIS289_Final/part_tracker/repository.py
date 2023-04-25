@@ -45,7 +45,7 @@ class Repository:
                 part = Part.objects.create_part(part_dict)
                 return part
             except Exception as e:
-                print(f"Scrap could not be converted to Part. {e}")
+                print(f"Scrape could not be converted to Part. {e}")
                 return None
         return None
 
@@ -53,11 +53,15 @@ class Repository:
         self.get_part_by_id(id).delete()
 
     def get_prices(self):
-        return Price.objects.order_by("date")
+        return Price.objects.values("price", "date", "part__long_name", "part__catagory__name").order_by("date")
 
     def get_prices_by_part_id(self, part_id):
         return Price.objects.filter(part=part_id)
-
+    
+    def get_prices_by_catagory(self, catagory):
+            prices = Price.objects.values("price", "part_id", "date", "part__catagory__name").filter(part__catagory__name=catagory)
+            return pd.DataFrame.from_records(prices)
+        
     def get_price_by_id(self, id):
         return Price.objects.get(id=id)
 
@@ -66,7 +70,7 @@ class Repository:
 
     def get_current_prices(self):
         unique_part_count = len(Price.objects.values('part_id').distinct())
-        current_prices = Price.objects.all().values('part', 'price', 'date', 'part__catagory__name').order_by('-price')[:unique_part_count]
+        current_prices = Price.objects.all().values('part', 'price', 'date', 'part__catagory__name').order_by('-date')[:unique_part_count]
         
         return current_prices
     
@@ -82,7 +86,7 @@ class Repository:
         # https://docs.djangoproject.com/en/4.2/topics/db/queries/#expressions-can-reference-transforms
         
 
-    def create_price_from_scrape(self, part):
+    def create_price_from_scrape(self, part, date):
         url = part.link
         catagory = part.catagory
         merchant = part.merchant
@@ -90,6 +94,7 @@ class Repository:
         price = Price()
         price.part = part
         price.price = data.get_price()
+        price.date = date
         return price
 
 

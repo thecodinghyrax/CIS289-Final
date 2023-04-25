@@ -1,11 +1,13 @@
 from .repository import Repository
 from bokeh.palettes import Sunset
 from bokeh.embed import components
+from bokeh.io import curdoc
 from bokeh.resources import CDN
-from bokeh.plotting import figure
+from bokeh.plotting import figure, show
 from bokeh.models import (AnnularWedge, ColumnDataSource,
                           Legend, LegendItem, Plot, Range1d)
 from math import radians
+from datetime import datetime as dt
 
 class BudgetGraph:
     def __init__(self):
@@ -13,7 +15,7 @@ class BudgetGraph:
         self.current_prices_data = self.repo.get_lowest_catagory_prices()
 
         
-    def graph_donut(self):
+    def graph_pie(self):
         data = {
             'components' : list(self.current_prices_data['part__catagory__name'].values()),
             'percentages' : list(self.current_prices_data['percentage'].values())
@@ -30,74 +32,73 @@ class BudgetGraph:
         
         source = ColumnDataSource(data=data)
         
-        p = figure(title="Max Budget Breakdown", toolbar_location=None, 
-                   tools="hover", tooltips="@components: @percentages")
+        p = figure(toolbar_location=None, tools="hover", 
+                   tooltips="@components: @percentages")
         
         
-        p.wedge(x=1, y=1, radius=0.4,
+        p.wedge(x=1, y=1, radius=1.0,
                 start_angle="start", end_angle="end", line_color="white",
-                fill_color="colors", legend_field="components", source=source)
-                
+                fill_color="colors", source=source)
+        
+        p.background_fill_color = "black"
+        p.border_fill_color = "black"
+        p.outline_line_color = "black"
+        p.sizing_mode = "scale_both"
+
+
 
         p.axis.axis_label = None
         p.axis.visible = False
         p.grid.grid_line_color= None
 
+        
+
         script, div = components(p, CDN)
 
         return {"the_script": script, "the_div": div }
     
-    def graph_donut2(self):
-        xdr = Range1d(start=-2, end=2)
-        ydr = Range1d(start=-2, end=2)
-        
-        # Setup plot
-        plot = Plot(x_range=xdr, y_range=ydr)
-        plot.title.text = "Percent of time spent on this assignment"
-        plot.toolbar_location = None
-        
-        # Data
-        percentages = [60, 5, 10, 29, 1]
-        
-        colors = {
-            "googling" : "red",
-            "daydreaming" : "blue",
-            "coding" : "green",
-            "fixing bugs" : "yellow",
-            "reading the assignment" : "tan"
-        }
-        
-        angles = []
-        for count, percent in enumerate(percentages):
-            angles.append(radians((percent /100) * 360))
-            if count != 0:
-                angles[count] += angles[count -1]
+    def create_price_charts(self):
+        catagory = self.repo.get_catagories()
+        for cata in catagory:
+            self.make_line_chart(self.repo.get_prices_by_catagory(cata))
+            
+        # prices = list(self.repo.get_prices())
+        # print(prices[0])
+    def make_line_chart(self, data):
+        # print(data['part__catagory__name'][0])
+        if data['part__catagory__name'][0] == "Motherboard":
+            data_list = []
+            dates_prices = data.groupby('part_id').agg({'date': list, 'price': list})
+            for col in dates_prices:
+                data_list.append(list(dates_prices[col]))
 
-        activity_source = ColumnDataSource(dict(
-            start = [0] + angles[:-1],
-            end   = angles,
-            colors = list(colors.values())
-        ))
-        
-        # Create glyph with chart data and add to plot
-        glyph = AnnularWedge(x=0, y=0, inner_radius=0.9, outer_radius=1.8,
-                            start_angle_units="rad", start_angle="start", end_angle="end",
-                            line_color="white", line_width=3, fill_color="colors")
-        
-        r = plot.add_glyph(activity_source, glyph)
-        
-        # Configure legend
-        legend = Legend(location="center")
-        for i, name in enumerate(colors):
-            legend.items.append(LegendItem(label=name, renderers=[r], index=i))
-        plot.add_layout(legend, "center")
+            p = figure(title='Price over time', toolbar_location=None, width=600, height=200, x_axis_type='datetime', x_axis_label='Date', y_axis_label='Price')
+            
+            p.multi_line()
+            for item in range(len(data_list[0])):
+                p.line(x=data_list[0][item], y=data_list[1][item])
+                
+            # print(len(dates_prices), "\n")
+            # print(dates_prices.index)
+            # print(dates_prices.iloc[[0]]['date'])
+            # chart_data = { 'date' : [], 'price' : [] }
+   
+            # mydict= dates_prices.to_dict()
+            # print(mydict['date'])
+            # print()
+            # print(mydict['price'])
+            # source = ColumnDataSource(dates_prices)
+            # source = ColumnDataSource(dates_prices.iloc[[0]])
+            curdoc().theme = "dark_minimal"
+            # x = list(dates_prices.iloc[[0]]['date'])
+            # y = list(dates_prices.iloc[[0]]['price'])
+            # p.line(x=, y[0], source=source)
 
-        # Create web components
-        script, div = components(plot, CDN)
-        title = "Donut Graph"
+            # p.line(x='date', y='price2', source=source)
+            # filename = f"{data['part__catagory__name'][0]}.png"
 
-        return {"the_script": script, "the_div": div, "title" : title}
-    
+            show(p)
+
     
 if __name__ == "__main__":
     pass

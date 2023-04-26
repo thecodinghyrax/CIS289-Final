@@ -1,18 +1,28 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from .forms import PartForm
 from .repository import Repository
+from .charts import BudgetGraph
 import threading
+from datetime import datetime
 
 
 # Create your views here.
 def index(request):
     repo = Repository()
+    graph = BudgetGraph()
     catagories = repo.get_catagories()
     parts = repo.get_parts()
+    prices = repo.get_current_prices()
+    pie = graph.graph_pie()
+    lines = graph.create_price_charts()
+
     context = {
                 "catagories": catagories,
-                "parts" :parts
+                "parts" :parts,
+                "prices" : prices,
+                "pie" : pie,
+                "lines" : lines
                 }
     return render(request, "part_tracker/index.html", context)
 
@@ -62,9 +72,10 @@ def updatePrices(request):
     if request.method == "POST":
         repo = Repository()
         parts = repo.get_parts()
+        date = datetime.now()
     def update_part_price(part):
         try:
-            price = repo.create_price_from_scrape(part)
+            price = repo.create_price_from_scrape(part, date)
             price.save()
         except Exception as e:
             print(e)
@@ -72,5 +83,10 @@ def updatePrices(request):
     for part in parts:
         thread = threading.Thread(target=update_part_price, args=(part,))
         thread.start()
-        
+
     return HttpResponseRedirect('/')
+
+def test(request):
+    graph = BudgetGraph()
+    donut = graph.create_price_charts()
+    return render(request, "part_tracker/test.html", donut)

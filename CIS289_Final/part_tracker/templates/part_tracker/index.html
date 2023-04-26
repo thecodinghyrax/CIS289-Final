@@ -1,19 +1,47 @@
 {% extends "./base.html" %}
-
+{% load tracker_extras %}
 {% block content %}
 
 <h1>Part Tracker</h1>
-<div class="button-row">
+<div class="button-row mb-2">
     <form class="form-inline" action="{% url 'part_tracker:updatePrices' %}" method="post">
         {% csrf_token %}
-        <button type="submit" id="update-btn">Update Prices</button>
+        <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#chartCollapse"
+            aria-expanded="false" aria-controls="chartCollapse">View Budget Chart</button>
+        <button type="submit" id="update-btn" class="btn btn-success">Update Prices</button>
     </form>
+    <div class="pie-chart collapse" id="chartCollapse">
+        {{ pie.the_div|safe }}
+        {{ pie.the_script|safe }}
+    </div>
 </div>
 
 {% for item in catagories %}
 <div class="part-grid">
     <h3>Catagory: {{ item }}</h3>
-    <div class="part-container "> <!--Parts and graph-->
+    <button class="btn btn-success" type="button" data-bs-toggle="collapse"
+    data-bs-target="#addPartCollapse{{item|de_space}}" aria-expanded="false"
+    aria-controls="addPartCollapse">Add Part</button>
+    <div class="add-part mt-2">
+
+        <div class="collapse" id="addPartCollapse{{item|de_space}}">
+            <form class="form-inline" action="{% url 'part_tracker:addPart' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group mx-sm-3 mb-2">
+                    <div class="input-group">
+                        <div class="input-group-append">
+    
+                            <button type="submit" class="btn btn-primary me-2">Add Part</button>
+                        </div>
+                        <input type="text" name="link" class="form-control" id="inputPartLink" placeholder="Parts Link">
+                    </div>
+                    <input type="hidden" name="catagory" value="{{ item }}">
+                </div>
+            </form>
+    
+        </div>
+    </div>
+    <div class="part-container"> <!--Parts and graph-->
         <div class="part row"> <!--All Parts-->
             {% for part in parts %}
             {% if part.catagory == item %}
@@ -28,27 +56,24 @@
                 {% endwith %}
                 {% endwith %}
                 <p>Brand: {{ part.brand }}</p>
-                <p>Current Price: $xxx.xx{{ price}}</p>
+                {% for price in prices %}
+                {% if price.part == part.id %}
+                <p>Current Price: ${{ price.price|multiply:"0.01" }}</p>
+                {% endif %}
+                {% endfor %}
                 <a href="{{ part.link }}">
-                    <img class="part-img" src="{{ part.image }}" alt="PC Case">
+                    <img class="part-img mb-2 float-left" src="{{ part.image }}" alt="PC Case">
                 </a>
 
                 <!-- Button trigger modal -->
                 <div class="container p-0">
-                    <div class="row justify-content-start">
-                        <div class="col-3 pr-2">
-
-                            <button class="btn btn-success" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#addPartCollapse" aria-expanded="false"
-                                aria-controls="addPartCollapse">+</button>
-                        </div>
-                        <div class="col-3">
-
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#confModal{{part.id}}">
-                                -
-                            </button>
-                        </div>
+                    <!-- <div class="row justify-content-start"> -->
+                    <div class="button-row">
+   
+                        <button type="button" class="btn btn-danger mb-2" data-bs-toggle="modal"
+                            data-bs-target="#confModal{{part.id}}">
+                            Delete Part
+                        </button>
                     </div>
                 </div>
 
@@ -86,38 +111,32 @@
                 </div>
 
 
-                
+
             </div><!--End EachPart-->
             {% endif %}
             {% endfor %}
         </div><!--End All Parts-->
 
-        <div class="graph col">
-            Fancy Graph Here
-        </div>
     </div><!--EndParts and graph-->
-</div>
+    <div class="graph">
+        {% for line in lines %}
 
-<div class="add-part mt-2">
+        {% if line == item.name %}
 
-    <div class="collapse" id="addPartCollapse">
-        <form class="form-inline" action="{% url 'part_tracker:addPart' %}" method="post">
-            {% csrf_token %}
-            <div class="form-group mx-sm-3 mb-2">
-                <div class="input-group">
-                    <div class="input-group-append">
+        {{lines|get_value:line|safe}}
+        
+        {% endif %}
 
-                        <button type="submit" class="btn btn-primary me-2">Add Part</button>
-                    </div>
-                    <input type="text" name="link" class="form-control" id="inputPartLink" placeholder="Parts Link">
-                </div>
-                <input type="hidden" name="catagory" value="{{ item }}">
-            </div>
-        </form>
-
+        {% endfor %}
     </div>
+
 </div>
 
 
 {% endfor %}
 {% endblock %}
+<script>
+    var graphs = document.querySelector(".graph");
+    console.log(graphs);
+    graphs.style.width = "100%";
+  </script>

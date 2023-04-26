@@ -19,8 +19,30 @@
 {% for item in catagories %}
 <div class="part-grid">
     <h3>Catagory: {{ item }}</h3>
+    <button class="btn btn-success" type="button" data-bs-toggle="collapse"
+    data-bs-target="#addPartCollapse{{item|de_space}}" aria-expanded="false"
+    aria-controls="addPartCollapse">Add Part</button>
+    <div class="add-part mt-2">
+
+        <div class="collapse" id="addPartCollapse{{item|de_space}}">
+            <form class="form-inline" action="{% url 'part_tracker:addPart' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group mx-sm-3 mb-2">
+                    <div class="input-group">
+                        <div class="input-group-append">
+    
+                            <button type="submit" class="btn btn-primary me-2">Add Part</button>
+                        </div>
+                        <input type="text" name="link" class="form-control" id="inputPartLink" placeholder="Parts Link">
+                    </div>
+                    <input type="hidden" name="catagory" value="{{ item }}">
+                </div>
+            </form>
+    
+        </div>
+    </div>
     <div class="part-container"> <!--Parts and graph-->
-        <div class="part row border"> <!--All Parts-->
+        <div class="part row"> <!--All Parts-->
             {% for part in parts %}
             {% if part.catagory == item %}
             <div class="col"><!--Each part-->
@@ -40,19 +62,17 @@
                 {% endif %}
                 {% endfor %}
                 <a href="{{ part.link }}">
-                    <img class="part-img" src="{{ part.image }}" alt="PC Case">
+                    <img class="part-img mb-2 float-left" src="{{ part.image }}" alt="PC Case">
                 </a>
 
                 <!-- Button trigger modal -->
                 <div class="container p-0">
                     <!-- <div class="row justify-content-start"> -->
                     <div class="button-row">
-                        <button class="btn btn-success" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#addPartCollapse" aria-expanded="false"
-                            aria-controls="addPartCollapse">+</button>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+   
+                        <button type="button" class="btn btn-danger mb-2" data-bs-toggle="modal"
                             data-bs-target="#confModal{{part.id}}">
-                            -
+                            Delete Part
                         </button>
                     </div>
                 </div>
@@ -98,31 +118,25 @@
         </div><!--End All Parts-->
 
     </div><!--EndParts and graph-->
-    <div class="graph col">
-        Fancy Graph Here
+    <div class="graph">
+        {% for line in lines %}
+
+        {% if line == item.name %}
+
+        {{lines|get_value:line|safe}}
+        
+        {% endif %}
+
+        {% endfor %}
     </div>
-</div>
 
-<div class="add-part mt-2">
-
-    <div class="collapse" id="addPartCollapse">
-        <form class="form-inline" action="{% url 'part_tracker:addPart' %}" method="post">
-            {% csrf_token %}
-            <div class="form-group mx-sm-3 mb-2">
-                <div class="input-group">
-                    <div class="input-group-append">
-
-                        <button type="submit" class="btn btn-primary me-2">Add Part</button>
-                    </div>
-                    <input type="text" name="link" class="form-control" id="inputPartLink" placeholder="Parts Link">
-                </div>
-                <input type="hidden" name="catagory" value="{{ item }}">
-            </div>
-        </form>
-
-    </div>
 </div>
 
 
 {% endfor %}
 {% endblock %}
+<script>
+    var graphs = document.querySelector(".graph");
+    console.log(graphs);
+    graphs.style.width = "100%";
+  </script>

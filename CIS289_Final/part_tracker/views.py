@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from .forms import PartForm
 from .repository import Repository
 from .charts import BudgetGraph
@@ -15,11 +15,14 @@ def index(request):
     parts = repo.get_parts()
     prices = repo.get_current_prices()
     pie = graph.graph_pie()
+    lines = graph.create_price_charts()
+
     context = {
                 "catagories": catagories,
                 "parts" :parts,
                 "prices" : prices,
-                "pie" : pie
+                "pie" : pie,
+                "lines" : lines
                 }
     return render(request, "part_tracker/index.html", context)
 

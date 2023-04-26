@@ -29,21 +29,18 @@ body {
 .part {
     border-radius: 15px;
     margin: 0 1em;
-    /* width: 20em;
-    height: 100%; */
 }
 
 .tracked-parts {
     border-radius: 15px;
     margin: 0 1em;
-    width: 20em;
-    height: 100%;
+    width: 100%;
 }
 
 .graph {
-    width: 40em;
     border-radius: 15px;
-
+    border: 2px gray solid;
+    padding: 2em;
 }
 
 .part-img {
@@ -54,4 +51,3 @@ body {
     width: 20%;
     height: auto;
 }
-

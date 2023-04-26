@@ -59,7 +59,7 @@ class Repository:
         return Price.objects.filter(part=part_id)
     
     def get_prices_by_catagory(self, catagory):
-            prices = Price.objects.values("price", "part_id", "date", "part__catagory__name").filter(part__catagory__name=catagory)
+            prices = Price.objects.values("price", "part_id", "part__long_name", "date", "part__catagory__name").filter(part__catagory__name=catagory)
             return pd.DataFrame.from_records(prices)
         
     def get_price_by_id(self, id):

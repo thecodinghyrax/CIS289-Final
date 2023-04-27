@@ -15,7 +15,6 @@ def index(request):
     catagories = repo.get_catagories()
     parts = repo.get_parts()
     prices = repo.get_current_prices()
-    print(prices)
     graph = BudgetGraph(prices)
     pie = graph.graph_pie()
     lines = graph.create_price_charts()
@@ -29,20 +28,6 @@ def index(request):
                 }
     return render(request, "part_tracker/index.html", context)
 
-def form(request):
-    if request.method == "POST":
-        form = PartForm(request.POST or None)
-        if form.is_valid():
-            print("Saving")
-            form.save()
-            form = PartForm()
-        else:
-            print("Invalid form")
-            print(form.data)
-    else:
-        form = PartForm()
-    return render(request, "part_tracker/form.html", {'form':form})
-
 def addPart(request):
     repo = Repository()
     if request.method == "POST":
@@ -53,7 +38,6 @@ def addPart(request):
                     part = repo.create_part_from_scrape(scraped_part.get_data_dict())
                     part.save()
                     messages.success(request, f"New part successfully added!")
-                    print("Saved to the database")
                 except Exception as e:
                     messages.error(request, f"There was an error when trying to add this part. Error: {e}")
             else:
@@ -65,7 +49,6 @@ def addPart(request):
     return HttpResponseRedirect('/')
     
 def delPart(request):
-    print(request.POST['id'])
     repo = Repository()
     if request.method == "POST":
         try:
@@ -93,8 +76,3 @@ def updatePrices(request):
         thread.start()
 
     return HttpResponseRedirect('/')
-
-def test(request):
-    graph = BudgetGraph()
-    donut = graph.create_price_charts()
-    return render(request, "part_tracker/test.html", donut)

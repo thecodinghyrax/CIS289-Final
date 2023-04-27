@@ -2,6 +2,19 @@
 {% load tracker_extras %}
 {% block content %}
 
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade-show" role="alert">
+
+    <div class="messages messages-{{ message.tags }}">
+        <p {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
 <h1>Part Tracker</h1>
 <div class="button-row mb-2">
     <form class="form-inline" action="{% url 'part_tracker:updatePrices' %}" method="post">
@@ -20,8 +33,8 @@
 <div class="part-grid">
     <h3>Catagory: {{ item }}</h3>
     <button class="btn btn-success" type="button" data-bs-toggle="collapse"
-    data-bs-target="#addPartCollapse{{item|de_space}}" aria-expanded="false"
-    aria-controls="addPartCollapse">Add Part</button>
+        data-bs-target="#addPartCollapse{{item|de_space}}" aria-expanded="false" aria-controls="addPartCollapse">Add
+        Part</button>
     <div class="add-part mt-2">
 
         <div class="collapse" id="addPartCollapse{{item|de_space}}">
@@ -30,7 +43,7 @@
                 <div class="form-group mx-sm-3 mb-2">
                     <div class="input-group">
                         <div class="input-group-append">
-    
+
                             <button type="submit" class="btn btn-primary me-2">Add Part</button>
                         </div>
                         <input type="text" name="link" class="form-control" id="inputPartLink" placeholder="Parts Link">
@@ -38,7 +51,7 @@
                     <input type="hidden" name="catagory" value="{{ item }}">
                 </div>
             </form>
-    
+
         </div>
     </div>
     <div class="part-container"> <!--Parts and graph-->
@@ -61,7 +74,7 @@
                 <p>Current Price: ${{ price.price|multiply:"0.01" }}</p>
                 {% endif %}
                 {% endfor %}
-                <a href="{{ part.link }}">
+                <a href="{{ part.link }}" target="_blank" rel="noopener noreferrer">
                     <img class="part-img mb-2 float-left" src="{{ part.image }}" alt="PC Case">
                 </a>
 
@@ -69,7 +82,7 @@
                 <div class="container p-0">
                     <!-- <div class="row justify-content-start"> -->
                     <div class="button-row">
-   
+
                         <button type="button" class="btn btn-danger mb-2" data-bs-toggle="modal"
                             data-bs-target="#confModal{{part.id}}">
                             Delete Part
@@ -124,7 +137,7 @@
         {% if line == item.name %}
 
         {{lines|get_value:line|safe}}
-        
+
         {% endif %}
 
         {% endfor %}
@@ -139,4 +152,4 @@
     var graphs = document.querySelector(".graph");
     console.log(graphs);
     graphs.style.width = "100%";
-  </script>
+</script>

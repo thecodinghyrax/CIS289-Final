@@ -70,13 +70,17 @@ class Repository:
     def get_current_prices(self):
         unique_part_count = len(Price.objects.values('part_id').distinct())
         current_prices = Price.objects.all().values('part', 'price', 'date', 'part__catagory__name').order_by('-date')[:unique_part_count]
+        print(f"Number of parts: {unique_part_count}")
+        for price in current_prices:
+            print(price)
+        print(f"Length of Queryset: {len(current_prices)}")
         
         return current_prices
     
-    def get_lowest_catagory_prices(self):
+    def get_lowest_catagory_prices(self, current_prices):
         # I have fought this for half a day now. I was trying to use the django orm to 
         # get the current highest price for each unique catagory but I cant make it work. Pandas to the rescue
-        current_prices_queryset = self.get_current_prices()
+        current_prices_queryset = current_prices
         current_df = pd.DataFrame.from_records(current_prices_queryset)
         revised_df = current_df.sort_values('price', ascending=False).drop_duplicates('part__catagory__name').sort_index()
         revised_df['percentage'] = revised_df['price'] / revised_df['price'].sum() * 100

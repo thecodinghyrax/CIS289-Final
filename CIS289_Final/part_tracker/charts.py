@@ -5,12 +5,12 @@ from bokeh.resources import CDN
 from bokeh.plotting import figure
 from bokeh.models import (ColumnDataSource, NumeralTickFormatter)
 from math import radians
-from datetime import datetime as dt
+import threading
 
 class BudgetGraph:
-    def __init__(self):
+    def __init__(self, current_prices):
         self.repo = Repository()
-        self.current_prices_data = self.repo.get_lowest_catagory_prices()
+        self.current_prices_data = self.repo.get_lowest_catagory_prices(current_prices)
 
         
     def graph_pie(self):
@@ -58,11 +58,16 @@ class BudgetGraph:
         '''
         catagory = self.repo.get_catagories()
         data_dict = dict()
-        for cata in catagory:
+        
+        def update_charts(cata):
             data = self.repo.get_prices_by_catagory(cata)
             chart = self.make_line_chart(data)
             data_dict.update({cata.name : chart})
-
+            
+        for cata in catagory:
+            thread = threading.Thread(target=update_charts, args=(cata,))
+            thread.start()
+            
         return data_dict
 
     def make_line_chart(self, data):

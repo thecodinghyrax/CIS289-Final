@@ -70,11 +70,7 @@ class Repository:
     def get_current_prices(self):
         unique_part_count = len(Price.objects.values('part_id').distinct())
         current_prices = Price.objects.all().values('part', 'price', 'date', 'part__catagory__name').order_by('-date')[:unique_part_count]
-        print(f"Number of parts: {unique_part_count}")
-        for price in current_prices:
-            print(price)
-        print(f"Length of Queryset: {len(current_prices)}")
-        
+
         return current_prices
     
     def get_lowest_catagory_prices(self, current_prices):

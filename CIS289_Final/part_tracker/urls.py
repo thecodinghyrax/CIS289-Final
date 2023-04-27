@@ -10,6 +10,4 @@ urlpatterns = [
     path("addPart/", views.addPart, name="addPart"),
     path("delPart/", views.delPart, name="delPart"),
     path("updatePrices/", views.updatePrices, name="updatePrices"),
-    path("test/", views.test, name="test"),
-    path("form/", views.form, name="form"),
 ]

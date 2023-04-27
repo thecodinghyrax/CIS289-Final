@@ -1,7 +1,6 @@
 from .models import Catagory, Merchant, Part, Price
 import pandas as pd
 from .newegg_scrape import NewEggData
-from .memoryc_scrape import MemoryCData
 from datetime import datetime
 
 class Repository:
@@ -104,7 +103,4 @@ class Repository:
         merchant = self.get_merchant_by_name('NewEgg')
         return NewEggData(url, catagory, merchant)
     
-
-    def create_memoryc_scrape(self, request):
-        raise NotImplementedError
     

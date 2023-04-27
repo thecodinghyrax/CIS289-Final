@@ -51,3 +51,22 @@ body {
     width: 20%;
     height: auto;
 }
+
+.alert-success {
+    background-color: green;
+    color:white;
+}
+
+.alert-error {
+    background-color: red;
+    color: white;
+}
+
+.alert-warning {
+    background-color: yellow;
+    color: black;
+}
+/* .messages-success {
+    background-color: green;
+    color: white;
+} */

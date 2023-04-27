@@ -4,17 +4,19 @@ from .forms import PartForm
 from .repository import Repository
 from .charts import BudgetGraph
 import threading
-from datetime import datetime
+import datetime
+import pytz
 from django.contrib import messages
 
 
 # Create your views here.
 def index(request):
     repo = Repository()
-    graph = BudgetGraph()
     catagories = repo.get_catagories()
     parts = repo.get_parts()
     prices = repo.get_current_prices()
+    print(prices)
+    graph = BudgetGraph(prices)
     pie = graph.graph_pie()
     lines = graph.create_price_charts()
 
@@ -77,7 +79,7 @@ def updatePrices(request):
     if request.method == "POST":
         repo = Repository()
         parts = repo.get_parts()
-        date = datetime.now()
+        date = datetime.datetime.now(pytz.timezone('UTC'))
     def update_part_price(part):
         try:
             price = repo.create_price_from_scrape(part, date)

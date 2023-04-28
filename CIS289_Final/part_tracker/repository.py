@@ -56,13 +56,18 @@ class Repository:
 
     def get_prices_by_part_id(self, part_id):
         return Price.objects.filter(part=part_id)
-    
-    def get_prices_by_catagory(self, catagory):
-            prices = Price.objects.values("price", "part_id", "part__long_name", "date", "part__catagory__name").filter(part__catagory__name=catagory)
-            return pd.DataFrame.from_records(prices)
         
     def get_price_by_id(self, id):
         return Price.objects.get(id=id)
+    
+    def get_prices_by_catagory(self, catagory):
+        '''
+        Description of the function
+        :param catagory: An instance of the catagory class
+        :returns: this is what is returned
+        '''
+        prices = Price.objects.values("price", "part_id", "part__long_name", "date", "part__catagory__name").filter(part__catagory__name=catagory)
+        return pd.DataFrame.from_records(prices)
 
     def del_price_by_id(self, id):
         self.get_price_by_id(id).delete()
@@ -82,7 +87,6 @@ class Repository:
         revised_df['percentage'] = revised_df['price'] / revised_df['price'].sum() * 100
 
         return revised_df.to_dict()
-        # https://docs.djangoproject.com/en/4.2/topics/db/queries/#expressions-can-reference-transforms
         
 
     def create_price_from_scrape(self, part, date):

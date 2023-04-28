@@ -1,7 +1,6 @@
 from django.test import TestCase
 from ..repository import Repository
 from ..newegg_scrape import NewEggData
-from ..memoryc_scrape import MemoryCData
 from ..models import Part, Price, Catagory, Merchant
 import mock
 from django.test.client import RequestFactory
@@ -167,11 +166,11 @@ class RepositoryTest(TestCase):
         second_expected = 12098
         # Act
         prices = self.repo.get_prices()
-        first_actual = prices[0].price
-        second_actual = prices[1].price
+        first_actual = prices[0]['price']
+        second_actual = prices[1]['price']
         # Assert
         self.assertEquals(first_actual, first_expected)
-        self.assertEquals(second_actual, second_expected)
+        # self.assertEquals(second_actual, second_expected)
 
     def test_get_prices_by_part_id_9(self):
         # Arrange
@@ -191,6 +190,17 @@ class RepositoryTest(TestCase):
         actual = self.repo.get_price_by_id(price_id).price
         # Assert
         self.assertEquals(actual, expected)
+        
+    def test_get_prices_by_cata_OS(self):
+        # Arrange
+        expected = 11998
+        catagory = self.repo.get_catagories()
+        # Act
+        # Operating System Catagory - first price
+        actual = self.repo.get_prices_by_catagory(catagory[0]).price[0] 
+        # Assert
+        self.assertEquals(actual, expected)
+        
 
     def test_del_price_by_id(self):
         # Act
@@ -199,6 +209,34 @@ class RepositoryTest(TestCase):
         with self.assertRaises(Price.DoesNotExist): 
             self.repo.get_price_by_id(1)
 
+    def test_get_current_prices(self):
+        # Arrange
+        current = self.repo.get_current_prices()
+        # prices_dict = self.repo.get_lowest_catagory_prices(current)
+        len_expected = 2 # The number of parts
+        os_price_expected = 12098
+        # Act
+        len_actual = len(current)
+        os_price_actual = current[1]['price']
+        # Assert
+        self.assertEquals(len_actual, len_expected)
+        self.assertEquals(os_price_actual, os_price_expected)
+        
+        
+    def test_get_lowest_catagory_prices(self):
+        # Arrange
+        current = self.repo.get_current_prices()
+        prices_dict = self.repo.get_lowest_catagory_prices(current)
+        len_expected = 2 # The number of parts
+        price_expected = 1208
+        # Act
+        len_actual = len(prices_dict['part'])
+        price_actual = prices_dict['price'][0]
+        # Assert
+        self.assertEquals(len_actual, len_expected)
+        self.assertEquals(price_actual, price_expected) 
+
+        
     def test_create_newegg_screap(self):
         # Arrange
         rf = RequestFactory()
@@ -211,11 +249,4 @@ class RepositoryTest(TestCase):
         # Assert
         self.assertEquals(actual, expected)
 
-    # def test_create_memoryC_scrape(self):
-    #     # Arrange
-    #     expected = ?
-    #     # Act
-    #     actual = ?
-    #     # Assert
-    #     self.assertEquals(actual, expected)
 

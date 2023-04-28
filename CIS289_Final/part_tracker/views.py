@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .forms import PartForm
 from .repository import Repository
 from .charts import BudgetGraph
 import threading

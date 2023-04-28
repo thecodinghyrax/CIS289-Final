@@ -26,3 +26,12 @@ The price of PC components fluctuates often and finding the best prices can be t
 - Users will be able to edit their parts lists to change their build configuration.
 ## Potential Issues
 Scraping some websites for specific products may be problematic. Care will need to be taken to ensure the right prices are returned for the right products. 
+## Project Requirement Criteria Files
+- DB read/write: repository.py
+- Scraping: newegg_scrape.py
+- Pandas: repository.py
+- Visualization: charts.py
+- DB Integration: repository.py
+- Django: CIS289_Final/
+- Multi-threading: charts.py, views.py
+- Factories: models.py

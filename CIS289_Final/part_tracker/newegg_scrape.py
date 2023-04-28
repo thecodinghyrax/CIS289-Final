@@ -17,13 +17,14 @@ class NewEggData:
         self.long_name = self.get_long_name()
         self.brand = self.get_brand()
         self.image = self.get_image()
-        
+
         
     def get_data(self):
         for script in self.scripts:
             try:
                 intro = str(script)[:200]
                 if 'Offer' in intro:
+                    print(f"Intro: {intro}")
                     return json.loads(script.contents[0])
             except Exception as e:
                 self.valid = False

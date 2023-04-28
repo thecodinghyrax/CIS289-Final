@@ -10,16 +10,13 @@ body {
     background-color: yellow;
     font-size: large;
 }
-/* 
-.container-main {
-    background: black url("images/pc.webp") no-repeat;
-} 
-*/
+
 .part-grid {
     border: 2px yellow solid;
     border-radius: 20px;
     padding: 1em;
 }
+
 .part-container {
     display: flex;
     flex-direction: row;
@@ -47,14 +44,14 @@ body {
     width: 50%;
 }
 
-.pie-chart{
+.pie-chart {
     width: 20%;
     height: auto;
 }
 
 .alert-success {
     background-color: green;
-    color:white;
+    color: white;
 }
 
 .alert-error {
@@ -66,7 +63,4 @@ body {
     background-color: yellow;
     color: black;
 }
-/* .messages-success {
-    background-color: green;
-    color: white;
-} */
+

@@ -1,36 +1,36 @@
 from django.test import TestCase
 from ..repository import Repository
-from ..newegg_scrape import NewEggData
-from ..models import Part, Price, Catagory, Merchant
-import mock
+from ..models import Part, Price
 from django.test.client import RequestFactory
 
 # Create your tests here.
+
+
 class RepositoryTest(TestCase):
     fixtures = ['initial_data.json']
+
     def setUp(self) -> None:
         self.repo = Repository()
 
         self.part_dict_valid = {
-                "link" : "https://parts.com",
-                "long_name": "Name of valid part",
-                "brand" : "Valid industries",
-                "image" : "https://picture.com/valid-part",
-                "catagory" : self.repo.get_catagory_by_name('CPU'),
-                "merchant" : self.repo.get_merchant_by_name('NewEgg'),
-                "valid" : True,
-                }
+            "link": "https://parts.com",
+            "long_name": "Name of valid part",
+            "brand": "Valid industries",
+            "image": "https://picture.com/valid-part",
+            "catagory": self.repo.get_catagory_by_name('CPU'),
+            "merchant": self.repo.get_merchant_by_name('NewEgg'),
+            "valid": True,
+        }
         self.part_dict_invalid = {
-                "link" : "https://parts.com",
-                "long_name": "Name of invalid part",
-                "brand" : "Invalid industries",
-                "image" : "https://picture.com/invalid-part",
-                "catagory" : self.repo.get_catagory_by_name('CPU'),
-                "merchant" : self.repo.get_merchant_by_name('NewEgg'),
-                "valid" : False,
-                }
-        
-        
+            "link": "https://parts.com",
+            "long_name": "Name of invalid part",
+            "brand": "Invalid industries",
+            "image": "https://picture.com/invalid-part",
+            "catagory": self.repo.get_catagory_by_name('CPU'),
+            "merchant": self.repo.get_merchant_by_name('NewEgg'),
+            "valid": False,
+        }
+
     def test_get_catagories(self):
         # Arrange
         expected_length = 9
@@ -45,7 +45,7 @@ class RepositoryTest(TestCase):
         self.assertEquals(cat_length, expected_length)
         self.assertEquals(first, expected_first)
         self.assertEquals(last, expected_last)
-        
+
     def test_get_cata_byname(self):
         # Arrange
         expected = 'Case'
@@ -54,7 +54,7 @@ class RepositoryTest(TestCase):
         actual = cata.name
         # Assert
         self.assertEquals(actual, expected)
-    
+
     def test_get_cata_byid_1(self):
         # Arrange
         expected = 'CPU'
@@ -63,7 +63,7 @@ class RepositoryTest(TestCase):
         actual = cat.name
         # Assert
         self.assertEquals(actual, expected)
-        
+
     def test_get_merchants(self):
         # Arrange
         expected_first = 'NewEgg'
@@ -78,7 +78,7 @@ class RepositoryTest(TestCase):
         self.assertEquals(merch_len, expected_len)
         self.assertEquals(first, expected_first)
         self.assertEquals(second, expected_second)
-        
+
     def test_get_merchant_byname(self):
         # Arrange
         expected = 'NewEgg'
@@ -88,7 +88,7 @@ class RepositoryTest(TestCase):
         actual = merch.name
         # Assert
         self.assertEquals(actual, expected)
-        
+
     def test_get_merchant_byid(self):
         # Arrange
         id = 2
@@ -112,7 +112,7 @@ class RepositoryTest(TestCase):
         self.assertEquals(last_expected_id, last_actual_id)
 
     def test_get_parts_by_catagory_name(self):
-        # Arrange   
+        # Arrange
         expected = 2
         expected_len = 1
         # Act
@@ -131,7 +131,7 @@ class RepositoryTest(TestCase):
         part = self.repo.get_part_by_long_name(name)
         actual = part[0].id
         # Assert
-        
+
         self.assertEquals(actual, expected)
 
     def test_get_part_by_id_4(self):
@@ -157,7 +157,7 @@ class RepositoryTest(TestCase):
         # Act
         self.repo.del_part_by_id(1)
         # # Assert
-        with self.assertRaises(Part.DoesNotExist): 
+        with self.assertRaises(Part.DoesNotExist):
             self.repo.get_part_by_id(1)
 
     def test_get_prices_both(self):
@@ -190,30 +190,29 @@ class RepositoryTest(TestCase):
         actual = self.repo.get_price_by_id(price_id).price
         # Assert
         self.assertEquals(actual, expected)
-        
+
     def test_get_prices_by_cata_OS(self):
         # Arrange
         expected = 11998
         catagory = self.repo.get_catagories()
         # Act
         # Operating System Catagory - first price
-        actual = self.repo.get_prices_by_catagory(catagory[0]).price[0] 
+        actual = self.repo.get_prices_by_catagory(catagory[0]).price[0]
         # Assert
         self.assertEquals(actual, expected)
-        
 
     def test_del_price_by_id(self):
         # Act
         self.repo.del_price_by_id(1)
         # # Assert
-        with self.assertRaises(Price.DoesNotExist): 
+        with self.assertRaises(Price.DoesNotExist):
             self.repo.get_price_by_id(1)
 
     def test_get_current_prices(self):
         # Arrange
         current = self.repo.get_current_prices()
         # prices_dict = self.repo.get_lowest_catagory_prices(current)
-        len_expected = 2 # The number of parts
+        len_expected = 2  # The number of parts
         os_price_expected = 12098
         # Act
         len_actual = len(current)
@@ -221,32 +220,29 @@ class RepositoryTest(TestCase):
         # Assert
         self.assertEquals(len_actual, len_expected)
         self.assertEquals(os_price_actual, os_price_expected)
-        
-        
+
     def test_get_lowest_catagory_prices(self):
         # Arrange
         current = self.repo.get_current_prices()
         prices_dict = self.repo.get_lowest_catagory_prices(current)
-        len_expected = 2 # The number of parts
+        len_expected = 2  # The number of parts
         price_expected = 1208
         # Act
         len_actual = len(prices_dict['part'])
         price_actual = prices_dict['price'][0]
         # Assert
         self.assertEquals(len_actual, len_expected)
-        self.assertEquals(price_actual, price_expected) 
+        self.assertEquals(price_actual, price_expected)
 
-        
     def test_create_newegg_screap(self):
         # Arrange
         rf = RequestFactory()
-        post_request = rf.post('/', {'link' : 'https://fake.com',
-                                     'catagory' : 'CPU'})
+        post_request = rf.post('/', {'link': 'https://fake.com',
+                                     'catagory': 'CPU'})
         expected = False
         # Act
         newegg_object = self.repo.create_newegg_scrape(post_request)
         actual = newegg_object.valid
         # Assert
         self.assertEquals(actual, expected)
-
 

@@ -26,6 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# Moved the secret key out into an env file and loaded it with the dotenv package
 SECRET_KEY = str(os.getenv('DJANGO_SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -87,6 +88,7 @@ DATABASES = {
     }
 }
 
+# Added a fixture for initial data load and testing
 FIXTURE_DIRS = ('/part_tracker/fixtures',)
 
 
